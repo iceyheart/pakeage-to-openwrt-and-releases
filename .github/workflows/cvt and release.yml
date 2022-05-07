@@ -43,7 +43,7 @@ jobs:
         run: |
           armvirt_tarfile_path="openwrt/bin/targets/armvirt/64"
           [ -d "${armvirt_tarfile_path}" ] || mkdir -p ${armvirt_tarfile_path}
-          wget -q -P ${armvirt_tarfile_path} https://github.com/iceyheart/N1-OpenWrt-Lede/releases/download/
+          wget -q -P ${armvirt_tarfile_path} https://github.com/iceyheart/N1-OpenWrt-Lede/releases/download/N1-OpenWrt-2022.05.07.2041/openwrt-armvirt-64-default-rootfs.tar.gz
           echo "::set-output name=status::success"
 
       - name: Package Armvirt as OpenWrt use Flippy script
@@ -61,15 +61,13 @@ jobs:
           tag: openwrt_s9xxx_${{ env.PACKAGED_OUTPUTDATE }}
           artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
           allowUpdates: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASES_TOKEN }}
           body: |
             This is OpenWrt firmware for Armvirt 64
             * Firmware information
-            Default IP: 192.168.1.1
+            Default IP: 192.168.31.2
             Default username: root
             Default password: password
-            Default WIFI name: OpenWrt
-            Default WIFI password: none
             Install to EMMC: Login to OpenWrt → System → Amlogic Service → Install OpenWrt
 
       - name: Delete older releases
@@ -79,13 +77,13 @@ jobs:
           keep_latest: ${{ env.KEEP_MININUM_RELEASE }}
           delete_tags: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.RELEASES_TOKEN }}
 
       - name: Delete older workflow runs and artifacts
         uses: Mattraks/delete-workflow-runs@main
         if: env.DELETE_ARTIFACTS == 'true'
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASES_TOKEN }}
           repository: ${{ github.repository }}
           retain_days: ${{ env.KEEP_DAY }}
           keep_minimum_runs: ${{ env.KEEP_MININUM_RUNS }}
