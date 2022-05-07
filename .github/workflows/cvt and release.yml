@@ -43,7 +43,7 @@ jobs:
         run: |
           armvirt_tarfile_path="openwrt/bin/targets/armvirt/64"
           [ -d "${armvirt_tarfile_path}" ] || mkdir -p ${armvirt_tarfile_path}
-          wget -q -P ${armvirt_tarfile_path} https://github.com/iceyheart/N1-OpenWrt-Lede/releases/download/N1-OpenWrt-2022.05.07.2041/openwrt-armvirt-64-default-rootfs.tar.gz
+          wget -q -P ${armvirt_tarfile_path} https://github.com/iceyheart/N1-OpenWrt-Lede/releases/download/N1-OpenWrt-2022.05.07.2313/openwrt-armvirt-64-default-rootfs.tar.gz
           
       - name: Package Armvirt as OpenWrt use Flippy script
         uses: ophub/flippy-openwrt-actions@main
