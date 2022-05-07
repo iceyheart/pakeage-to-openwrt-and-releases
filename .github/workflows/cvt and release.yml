@@ -43,9 +43,7 @@ jobs:
         run: |
           armvirt_tarfile_path="openwrt/bin/targets/armvirt/64"
           [ -d "${armvirt_tarfile_path}" ] || mkdir -p ${armvirt_tarfile_path}
-          curl -s "https://api.github.com/repos/ophub/amlogic-s9xxx-openwrt/releases" | grep -o "openwrt_s9xxx_.*/.*rootfs.tar.gz" | head -n 1 > DOWNLOAD_URL
-          [ -s DOWNLOAD_URL ] && wget -q -P ${armvirt_tarfile_path} https://github.com/ophub/amlogic-s9xxx-openwrt/releases/download/$(cat DOWNLOAD_URL)
-          [ "$?" -ne "0" ] && echo "armvirt file download failed!" && exit 1
+          wget -q -P ${armvirt_tarfile_path} https://github.com/iceyheart/N1-OpenWrt-Lede/releases/download/
           echo "::set-output name=status::success"
 
       - name: Package Armvirt as OpenWrt use Flippy script
@@ -53,8 +51,8 @@ jobs:
         if: steps.download.outputs.status == 'success' && !cancelled()
         env:
           OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*rootfs.tar.gz
-          PACKAGE_SOC: vplus_beikeyun_l1pro_s905x3_s905d
-          KERNEL_VERSION_NAME: 5.15.25_5.17.1
+          PACKAGE_SOC: s905D
+          KERNEL_VERSION_NAME: 5.15.36
 
       - name: Upload OpenWrt Firmware to Release
         uses: ncipollo/release-action@v1
